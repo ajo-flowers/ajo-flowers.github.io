@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квіти з мила | Замовлення</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","trackWithQuery","click","updateTag"],ttq.setAndLocalKey=function(e,t,n){var r=ttq._i[e]||[];if(n)for(r[0]=t,r[1]=n,i=0;i<r.length;i++)ttq._i[e][i]=r[i];else ttq._i[e]=t},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n;var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=r+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+    
+      ttq.load('ВАШ_ID_ПИКСЕЛЯ'); // ЗАМЕНИТЕ ЭТО НА ВАШ ID
+      ttq.page();
+    }(window, document, 'ttq');
+    </script>
+    <style>
+        :root {
+            --primary-bg: #fff5f7;
+            --text-color: #333;
+            --viber-color: #7360f2;
+            --tg-color: #229ED9;
+            --accent-pink: #ff8fa3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Аватарка */
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Кнопки мессенджеров */
+        .main-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .main-btn:active {
+            transform: scale(0.98);
+        }
+
+        .viber-btn { background-color: var(--viber-color); }
+        .tg-btn { background-color: var(--tg-color); }
+
+        .btn-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
+
+        /* Попап выбора бюджета */
+        .overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: none;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        .popup {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 25px 25px 0 0;
+            padding: 30px 20px;
+            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 101;
+            text-align: center;
+        }
+
+        .popup.active {
+            bottom: 0;
+        }
+
+        .popup h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .price-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            background: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .price-btn:hover, .price-btn:active {
+            background-color: var(--primary-bg);
+            border-color: var(--accent-pink);
+        }
+
+        .close-popup {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #999;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://via.placeholder.com/150" alt="Logo" class="profile-img">
+    
+    <h1>Назва вашої компанії</h1>
+    <p class="description">Ексклюзивні букети з мила, які не в'януть ✨<br>Оберіть зручний месенджер для замовлення:</p>
+
+    <button class="main-btn viber-btn" onclick="openPopup('viber')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Viber_logo_2018.svg" class="btn-icon" alt="V">
+        Написати у Viber
+    </button>
+
+    <button class="main-btn tg-btn" onclick="openPopup('tg')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="btn-icon" alt="T">
+        Написати у Telegram
+    </button>
+</div>
+
+<div class="overlay" id="overlay" onclick="closePopup()"></div>
+<div class="popup" id="popup">
+    <h2 id="popup-title">Який бюджет вас цікавить?</h2>
+    <button class="price-btn" onclick="goToMessenger('1000')">До 1000 грн</button>
+    <button class="price-btn" onclick="goToMessenger('2000')">До 2000 грн</button>
+    <button class="price-btn" onclick="goToMessenger('5000')">До 5000 грн</button>
+    <div class="close-popup" onclick="closePopup()">Закрити</div>
+</div>
+
+<script>
+    let currentMessenger = '';
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+
+    // Данные для ссылок (ЗАМЕНИ НА СВОИ)
+    const config = {
+        tg: {
+            username: 'ВАШ_НИК_ТГ', 
+            text: 'Доброго дня! Цікавлять букети до '
+        },
+        viber: {
+            number: '380XXXXXXXXX', // Формат без плюса
+            botUri: 'ВАШ_URI_БОТА' // Если будешь использовать бота
+        }
+    };
+
+    function openPopup(messenger) {
+        currentMessenger = messenger;
+        overlay.style.display = 'block';
+        setTimeout(() => popup.classList.add('active'), 10);
+    }
+
+    function closePopup() {
+        popup.classList.remove('active');
+        setTimeout(() => overlay.style.display = 'none', 400);
+    }
+
+    function goToMessenger(price) {
+        // ТРЕКИНГ ТИК-ТОК ПИКСЕЛЯ
+        ttq.track('Contact', {
+            content_name: 'Выбор бюджета',
+            value: price,
+            currency: 'UAH'
+        });
+
+        let url = '';
+        const message = encodeURIComponent(config.tg.text + price + ' грн');
+
+        if (currentMessenger === 'tg') {
+            url = `https://t.me/${config.tg.username}?text=${message}`;
+        } else {
+            // Если используешь обычный номер для Viber:
+            url = `viber://chat?number=%2B${config.viber.number}`;
+            // Если используешь бота (лучше):
+            // url = `viber://pa?chatURI=${config.viber.botUri}&context=${price}`;
+        }
+
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>
