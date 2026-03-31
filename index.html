@@ -11,7 +11,7 @@
     !function (w, d, t) {
       w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","trackWithQuery","click","updateTag"],ttq.setAndLocalKey=function(e,t,n){var r=ttq._i[e]||[];if(n)for(r[0]=t,r[1]=n,i=0;i<r.length;i++)ttq._i[e][i]=r[i];else ttq._i[e]=t},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n;var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=r+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
     
-      // ВСТАВЬ СВОЙ ID ПИКСЕЛЯ НИЖЕ
+      // ---> ВСТАВЬ СВОЙ ID ПИКСЕЛЯ В КАВЫЧКАХ НИЖЕ <---
       ttq.load('ВАШ_ID_ПИКСЕЛЯ');
       ttq.page();
     }(window, document, 'ttq');
@@ -49,7 +49,6 @@
             text-align: center;
         }
 
-        /* Аватарка */
         .profile-img {
             width: 120px;
             height: 120px;
@@ -73,7 +72,6 @@
             line-height: 1.6;
         }
 
-        /* Кнопки мессенджеров */
         .main-btn {
             display: flex;
             align-items: center;
@@ -103,7 +101,6 @@
             fill: white;
         }
 
-        /* Попап (Bottom Sheet) */
         .overlay {
             position: fixed;
             top: 0;
@@ -174,6 +171,8 @@
 <body>
 
 <div class="container">
+    
+    ВСТАВЬ ССЫЛКУ НА СВОЕ ФОТО ВМЕСТО https://via.placeholder.com/150 <--- -->
     <img src="https://via.placeholder.com/150" alt="Logo" class="profile-img">
     
     <h1>Назва магазину</h1>
@@ -200,12 +199,19 @@
 </div>
 
 <script>
-    // --- НАСТРОЙКИ ДАННЫХ ---
+    // ==========================================
+    // 3. НАСТРОЙКИ ВАШИХ МЕССЕНДЖЕРОВ
+    // ==========================================
     const SETTINGS = {
-        tg_user: 'ВАШ_НИК_БЕЗ_СОБАЧКИ',
-        viber_num: '380XXXXXXXXX', // номер без +
-        viber_bot: '', // если есть бот, впиши его URI сюда
-        pixel_id: 'ВАШ_ID_ПИКСЕЛЯ'
+        
+        // ---> ВАШ НИК В ТЕЛЕГРАМЕ (БЕЗ ЗНАКА @) <---
+        tg_user: 'ВАШ_НИК_БЕЗ_СОБАЧКИ', 
+        
+        // ---> ВАШ НОМЕР ДЛЯ VIBER (БЕЗ ПЛЮСА, ТОЛЬКО ЦИФРЫ) <---
+        viber_num: '380XXXXXXXXX', 
+        
+        // ---> ЕСЛИ БУДЕШЬ ДЕЛАТЬ БОТА В VIBER, ВПИШИ ЕГО ИМЯ СЮДА (ИНАЧЕ ОСТАВЬ ПУСТЫМ '') <---
+        viber_bot: '' 
     };
 
     let selectedMessenger = '';
@@ -224,7 +230,7 @@
     }
 
     function sendLead(price) {
-        // ТРЕКИНГ ТИК-ТОК (Событие Contact)
+        // Пиксель отправляет событие Contact в TikTok
         ttq.track('Contact', {
             content_name: 'Выбор бюджета',
             value: price,
@@ -237,16 +243,13 @@
         if (selectedMessenger === 'tg') {
             finalUrl = `https://t.me/${SETTINGS.tg_user}?text=${msg}`;
         } else {
-            // Если есть бот - шлем в бота с контекстом цены
             if(SETTINGS.viber_bot) {
                 finalUrl = `viber://pa?chatURI=${SETTINGS.viber_bot}&context=${price}`;
             } else {
-                // Если нет бота - просто открываем чат с номером
                 finalUrl = `viber://chat?number=%2B${SETTINGS.viber_num}`;
             }
         }
 
-        // Небольшая задержка перед редиректом, чтобы пиксель успел "стрельнуть"
         setTimeout(() => {
             window.location.href = finalUrl;
         }, 300);
