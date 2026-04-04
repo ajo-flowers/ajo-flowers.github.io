@@ -76,7 +76,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px; /* Ця штука робить ідеальний відступ між іконкою і текстом */
+            gap: 12px;
             width: 100%;
             padding: 18px;
             margin-bottom: 15px;
@@ -99,7 +99,6 @@
             width: 24px;
             height: 24px;
             fill: white;
-            /* Прибираємо margin-right, бо тепер працює gap у кнопці */
         }
 
         .overlay {
@@ -171,7 +170,6 @@
 </head>
 <body>
 
-
 <div class="container">
     
     <img src="images/111.jpg" alt="Logo" class="profile-img">
@@ -193,7 +191,7 @@
         </svg>
         <span>Написати у Telegram</span>
     </button>
-</div>
+    </div>
 </div>
 
 <div class="overlay" id="overlay" onclick="closePopup()"></div>
@@ -222,6 +220,7 @@
     };
 
     let selectedMessenger = '';
+    let isProcessing = false; // Флаг блокировки мультиклика
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
 
@@ -237,7 +236,10 @@
     }
 
     function sendLead(price) {
-        // Пиксель отправляет событие Contact в TikTok
+        if (isProcessing) return; // Если флаг активен, прерываем функцию
+        isProcessing = true; // Включаем блокировку
+
+        // Пиксель отправляет событие ClickButton в TikTok
         ttq.track('ClickButton', {
             content_name: 'Выбор бюджета',
             value: price,
@@ -260,6 +262,11 @@
         setTimeout(() => {
             window.location.href = finalUrl;
         }, 300);
+
+        // Снимаем блокировку через 3 секунды (3000 мс)
+        setTimeout(() => {
+            isProcessing = false;
+        }, 3000);
     }
 </script>
 
