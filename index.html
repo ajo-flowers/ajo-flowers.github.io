@@ -208,19 +208,15 @@
     // 3. НАСТРОЙКИ ВАШИХ МЕССЕНДЖЕРОВ
     // ==========================================
     const SETTINGS = {
-        
-        // ---> ВАШ НИК В ТЕЛЕГРАМЕ (БЕЗ ЗНАКА @) <---
         tg_user: 'JuliaUrbanska', 
-        
-        // ---> ВАШ НОМЕР ДЛЯ VIBER (БЕЗ ПЛЮСА, ТОЛЬКО ЦИФРЫ) <---
         viber_num: '380938582462', 
-        
-        // ---> ЕСЛИ БУДЕШЬ ДЕЛАТЬ БОТА В VIBER, ВПИШИ ЕГО ИМЯ СЮДА (ИНАЧЕ ОСТАВЬ ПУСТЫМ '') <---
         viber_bot: '' 
     };
 
     let selectedMessenger = '';
     let isProcessing = false; // Флаг блокировки мультиклика
+    let popupActive = false; // Флаг состояния попапа для кнопки "Назад"
+    
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
 
@@ -228,18 +224,38 @@
         selectedMessenger = messenger;
         overlay.classList.add('active');
         setTimeout(() => popup.classList.add('active'), 10);
+        
+        // Меняем статус и добавляем фиктивный шаг в историю браузера
+        popupActive = true;
+        history.pushState({ popupOpen: true }, '', '#price-selection');
     }
 
-    function closePopup() {
+    // Параметр fromPopState определяет, закрываем ли мы меню системной кнопкой
+    function closePopup(fromPopState = false) {
+        if (!popupActive) return; // Если уже закрыто, ничего не делаем
+        
         popup.classList.remove('active');
         setTimeout(() => overlay.classList.remove('active'), 300);
+        popupActive = false;
+        
+        // Если закрыли нажатием на крестик или оверлей (а не кнопкой телефона),
+        // то сами откатываем историю на шаг назад, чтобы убрать #price-selection из ссылки
+        if (fromPopState !== true) {
+            history.back();
+        }
     }
 
-    function sendLead(price) {
-        if (isProcessing) return; // Если флаг активен, прерываем функцию
-        isProcessing = true; // Включаем блокировку
+    // Отлавливаем нажатие системной кнопки "Назад" на телефоне
+    window.addEventListener('popstate', function(event) {
+        if (popupActive) {
+            closePopup(true); // Передаем true, так как это системное действие
+        }
+    });
 
-        // Пиксель отправляет событие ClickButton в TikTok
+    function sendLead(price) {
+        if (isProcessing) return; 
+        isProcessing = true; 
+
         ttq.track('ClickButton', {
             content_name: 'Выбор бюджета',
             value: price,
@@ -263,7 +279,10 @@
             window.location.href = finalUrl;
         }, 300);
 
-        // Снимаем блокировку через 3 секунды (3000 мс)
+        // Сразу сворачиваем меню после клика. 
+        // Если человек потом вернется в браузер, сайт будет выглядеть аккуратно.
+        closePopup();
+
         setTimeout(() => {
             isProcessing = false;
         }, 3000);
